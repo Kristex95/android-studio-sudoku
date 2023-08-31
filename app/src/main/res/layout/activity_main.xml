@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="392dp"
+        android:layout_height="625dp"
+        android:layout_gravity="center"
+        android:useDefaultMargins="true"
+        android:columnCount="9"
+        android:rowCount="9" />
+</LinearLayout>
