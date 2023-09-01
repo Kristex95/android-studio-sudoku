@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,12 +47,19 @@ class MainActivity : ComponentActivity() {
                 buttText=""
 
 
-                // Add click listener to the button
-                button.setOnClickListener { view ->
-                    val tag = view.tag as String
-                    // Handle button click here
-                }
 
+                button.setOnClickListener {
+
+                    val buttonText = (it as Button).text.toString()
+                    var number = buttonText.toInt()
+
+
+                    number = (number + 1) % 10
+
+
+                    button.text = number.toString()
+                    Toast.makeText(this, "Вы нажали кнопку $buttonText", Toast.LENGTH_SHORT).show()
+                }
                 // Add the button to the GridLayout
                 gridLayout.addView(buttonLayout)
             }
