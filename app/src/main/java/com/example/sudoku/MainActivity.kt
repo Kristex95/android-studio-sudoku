@@ -23,7 +23,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        SudokuMain.LogAnswerSheet()
+
+
+
         val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+        var answerSheet = SudokuMain.answerSheet
+
 
         for (row in 0 until 9) {
             for (col in 0 until 9) {
@@ -31,8 +37,14 @@ class MainActivity : ComponentActivity() {
                     .inflate(R.layout.button_grid_item, gridLayout, false)
 
                 val button = buttonLayout.findViewById<Button>(R.id.button)
-                button.text = "$row-$col" // Set button text as per your requirement
-                button.tag = "$row-$col" // Set a tag if needed
+                var buttText = ""
+
+                buttText+=answerSheet[row][col].toString()
+                Log.d("Kristex", buttText)
+                button.tag=buttText
+                button.text ="$buttText"  // Set button text as per your requirement
+                buttText=""
+
 
                 // Add click listener to the button
                 button.setOnClickListener { view ->
