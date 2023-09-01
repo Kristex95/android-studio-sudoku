@@ -3,7 +3,7 @@
     android:id="@+id/button"
     style="@android:style/Widget.Material.Button.Colored"
     android:layout_width="40dp"
-    android:layout_height="50dp"
+    android:layout_height="40dp"
     android:layout_margin="0dp"
     android:backgroundTint="#F6F5F5"
     android:onClick="onButtonClick"
