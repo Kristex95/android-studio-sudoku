@@ -56,7 +56,6 @@ class MainActivity : ComponentActivity() {
             button9
         )
 
-        val moveStack = Stack<Move>()
 
         SudokuMain.LogAnswerSheet()
 
@@ -64,7 +63,10 @@ class MainActivity : ComponentActivity() {
 
         fun setNumbersInSudoku(row: Int, col: Int, button: Button) {
             var buttText = ""
-            buttText += SudokuMain.answerSheet[row][col].toString()
+            if (SudokuMain.playerSheet[row][col]!=0){
+            buttText += SudokuMain.playerSheet[row][col].toString()
+            }
+
             button.tag = buttText
             button.text = "$buttText"
 
