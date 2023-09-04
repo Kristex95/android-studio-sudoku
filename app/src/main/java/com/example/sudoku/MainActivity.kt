@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        val buttonReset:Button= findViewById(R.id.button_reset)
         val button1: Button = findViewById(R.id.butt1)
         val button2: Button = findViewById(R.id.butt2)
         val button3: Button = findViewById(R.id.butt3)
@@ -51,6 +51,14 @@ class MainActivity : ComponentActivity() {
         var currentColor = color1
 
 
+        fun setNumbersInSudoku(row:Int,col:Int,button:Button){
+            var buttText = ""
+            var answerSheet=SudokuMain.answerSheet
+            buttText += answerSheet[row][col].toString()
+            button.tag = buttText
+            button.text = "$buttText"  // Set button text as per your requirement
+
+        }
         val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
         var answerSheet = SudokuMain.answerSheet
         var paintRow = true
@@ -65,18 +73,18 @@ class MainActivity : ComponentActivity() {
                     .inflate(R.layout.button_grid_item, gridLayout, false)
 
                 val buttonInList = buttonLayout.findViewById<Button>(R.id.button)
-                var buttText = ""
+                //var buttText = ""
                 buttonInList.setBackgroundColor(R.color.black)
 
 
                 buttonInList.backgroundTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(this, currentColor)
                 )
-                buttText += answerSheet[row][col].toString()
-                Log.d("Kristex", buttText)
+                /*buttText += answerSheet[row][col].toString()
                 buttonInList.tag = buttText
                 buttonInList.text = "$buttText"  // Set button text as per your requirement
-                buttText = ""
+                buttText = ""*/
+                setNumbersInSudoku(row,col,buttonInList)
 
                 buttons.forEach { button ->
                     button.setOnClickListener {
@@ -88,9 +96,9 @@ class MainActivity : ComponentActivity() {
                             var buttonText = (it as Button).text.toString()
                             if (selectedButton != null) {
                                 buttonInList.text = selectedButton!!.text
-                                Toast.makeText(this, "Текст кнопки изменен на $buttonText", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "text changed to $selectedButton", Toast.LENGTH_SHORT).show()
                             } else {
-                                Toast.makeText(this, "Выберите кнопку из списка сначала", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "choose number on bottom buttons", Toast.LENGTH_SHORT).show()
                             }
                         }
 
