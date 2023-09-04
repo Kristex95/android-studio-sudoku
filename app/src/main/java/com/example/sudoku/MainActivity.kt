@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val buttonReset:Button= findViewById(R.id.button_reset)
+        val buttonReset: Button = findViewById(R.id.button_reset)
         val button1: Button = findViewById(R.id.butt1)
         val button2: Button = findViewById(R.id.butt2)
         val button3: Button = findViewById(R.id.butt3)
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         val button7: Button = findViewById(R.id.butt7)
         val button8: Button = findViewById(R.id.butt8)
         val button9: Button = findViewById(R.id.butt9)
-        val buttonUndo:Button=findViewById(R.id.buttonUndo)
+        val buttonUndo: Button = findViewById(R.id.buttonUndo)
         val buttons = listOf(
             button1,
             button2,
@@ -53,18 +53,19 @@ class MainActivity : ComponentActivity() {
         var currentColor = color1
 
 
-        fun setNumbersInSudoku(row:Int,col:Int,button:Button){
+        fun setNumbersInSudoku(row: Int, col: Int, button: Button) {
             var buttText = ""
-            var answerSheet=SudokuMain.answerSheet
+            var answerSheet = SudokuMain.answerSheet
             val move = Move(row, col, answerSheet[row][col])
             moveStack.push(move)
             buttText += answerSheet[row][col].toString()
             button.tag = buttText
-            button.text = "$buttText"  // Set button text as per your requirement
+            button.text = "$buttText"
 
         }
 
         fun undoLastMove() {
+            Log.d("Kristex", "Вызвана функция undoLastMove()")
             if (moveStack.isNotEmpty()) {
                 val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
                 val lastMove = moveStack.pop()
@@ -108,34 +109,61 @@ class MainActivity : ComponentActivity() {
                     .inflate(R.layout.button_grid_item, gridLayout, false)
 
                 val buttonInList = buttonLayout.findViewById<Button>(R.id.button)
-                //var buttText = ""
                 buttonInList.setBackgroundColor(R.color.black)
 
 
                 buttonInList.backgroundTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(this, currentColor)
                 )
-                /*buttText += answerSheet[row][col].toString()
-                buttonInList.tag = buttText
-                buttonInList.text = "$buttText"  // Set button text as per your requirement
-                buttText = ""*/
-                setNumbersInSudoku(row,col,buttonInList)
 
-                buttons.forEach { button ->
-                    button.setOnClickListener {
-                        selectedButton = button
-                        }
-                    }
-                        buttonInList.setOnClickListener {
+                setNumbersInSudoku(row, col, buttonInList)
 
-                            var buttonText = (it as Button).text.toString()
-                            if (selectedButton != null) {
-                                buttonInList.text = selectedButton!!.text
-                                Toast.makeText(this, "text changed to $selectedButton", Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(this, "choose number on bottom buttons", Toast.LENGTH_SHORT).show()
+                buttonInList.setOnClickListener {
+
+                    buttons.forEach { button ->
+                        button.setOnClickListener {
+                            /*selectedButton = button*/
+                            when (button) {
+                                button1 -> {
+                                    buttonInList.text = button1.text
+                                }
+
+                                button2 -> {
+                                    buttonInList.text = button2.text
+                                }
+
+                                button3 -> {
+                                    buttonInList.text = button3.text
+                                }
+
+                                button4 -> {
+                                    buttonInList.text = button4.text
+                                }
+
+                                button5 -> {
+                                    buttonInList.text = button5.text
+                                }
+
+                                button6 -> {
+                                    buttonInList.text = button6.text
+                                }
+
+                                button7 -> {
+                                    buttonInList.text = button7.text
+                                }
+
+                                button8 -> {
+                                    buttonInList.text = button8.text
+                                }
+
+                                button9 -> {
+                                    buttonInList.text = button9.text
+                                }
                             }
                         }
+                    }
+
+                }
 
 
 
