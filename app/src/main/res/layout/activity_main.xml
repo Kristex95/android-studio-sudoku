@@ -40,63 +40,63 @@
             android:useDefaultMargins="false">
 
             <Button
-                android:id="@+id/button11"
+                android:id="@+id/butt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="1" />
 
             <Button
-                android:id="@+id/button12"
+                android:id="@+id/butt2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="2" />
 
             <Button
-                android:id="@+id/button13"
+                android:id="@+id/butt3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="3" />
 
             <Button
-                android:id="@+id/button14"
+                android:id="@+id/butt4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="4" />
 
             <Button
-                android:id="@+id/button15"
+                android:id="@+id/butt5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="5" />
 
             <Button
-                android:id="@+id/button16"
+                android:id="@+id/butt6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="6" />
 
             <Button
-                android:id="@+id/button17"
+                android:id="@+id/butt7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="7" />
 
             <Button
-                android:id="@+id/button18"
+                android:id="@+id/butt8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:text="8" />
 
             <Button
-                android:id="@+id/button19"
+                android:id="@+id/butt9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="9" />
