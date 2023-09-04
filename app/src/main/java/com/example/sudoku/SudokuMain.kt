@@ -5,10 +5,8 @@ import kotlin.random.Random
 
 object SudokuMain {
     private const val sheetLength = 9
-     var answerSheet = CustomArrayList<CustomArrayList<Int>>()
-
-
-
+    var answerSheet = CustomArrayList<CustomArrayList<Int>>()
+    var playerSheet = answerSheet//CustomArrayList<CustomArrayList<Int>>()
     init{
         CreateSheet()
     }

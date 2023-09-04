@@ -3,9 +3,7 @@ package com.example.sudoku
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
@@ -16,10 +14,20 @@ import java.util.Stack
 const val TAG = "Andrii"
 
 class MainActivity : ComponentActivity() {
-    var selectedButton: Button? = null
+
+
+    @SuppressLint("StaticFieldLeak")
+    object Selected {
+        var button: Button? = null
+        var row: Int = 0
+        var col: Int = 0
+    }
+
     private val color1 = R.color.light_wight
     private val color2 = R.color.pumpkin
     private var currentColor = color1
+    private var playersMoves = Stack<ButtonData>()
+    private final val undoTimes = 20
     @SuppressLint("ResourceAsColor")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,22 +64,19 @@ class MainActivity : ComponentActivity() {
 
         fun setNumbersInSudoku(row: Int, col: Int, button: Button) {
             var buttText = ""
-            var answerSheet = SudokuMain.answerSheet
-            val move = Move(row, col, answerSheet[row][col])
-            moveStack.push(move)
-            buttText += answerSheet[row][col].toString()
+            buttText += SudokuMain.answerSheet[row][col].toString()
             button.tag = buttText
             button.text = "$buttText"
 
         }
 
         fun undoLastMove() {
-            Log.d("Kristex", "Вызвана функция undoLastMove()")
-            if (moveStack.isNotEmpty()) {
+            if (playersMoves.isNotEmpty()) {
                 val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
-                val lastMove = moveStack.pop()
-                val button = gridLayout.getChildAt(lastMove.row * 9 + lastMove.col) as Button
-                button.text = lastMove.value.toString()
+                val lastMove = playersMoves.pop()
+                val button = lastMove.button
+                button?.text = lastMove.value.toString()
+                SudokuMain.playerSheet[lastMove.row][lastMove.col] = lastMove.value
                 // Можете также обновить цвет фона или другие свойства, если необходимо
             } else {
                 Toast.makeText(this, "Нет доступных ходов для отмены", Toast.LENGTH_SHORT).show()
@@ -91,42 +96,60 @@ class MainActivity : ComponentActivity() {
         fun assignNumpadClick() {
             buttons.forEach { button ->
                 button.setOnClickListener {
+                    if(Selected.button == null){
+                        return@setOnClickListener
+                    }
+                    if(Selected.button?.text != button.text){
+                        if(playersMoves.size >= undoTimes){
+                            playersMoves.removeAt(0)
+                        }
+                        playersMoves.add(ButtonData(Selected.row, Selected.col, Selected.button, Integer.parseInt(Selected.button?.text.toString())))
+                    }
                     /*selectedButton = button*/
                     when (button) {
                         button1 -> {
-                            selectedButton?.text = button1.text
+                            Selected.button?.text = button1.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button1.text.toString())
                         }
 
                         button2 -> {
-                            selectedButton?.text = button2.text
+                            Selected.button?.text = button2.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button2.text.toString())
                         }
 
                         button3 -> {
-                            selectedButton?.text = button3.text
+                            Selected.button?.text = button3.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button3.text.toString())
                         }
 
                         button4 -> {
-                            selectedButton?.text = button4.text
+                            Selected.button?.text = button4.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button4.text.toString())
                         }
 
                         button5 -> {
-                            selectedButton?.text = button5.text
+                            Selected.button?.text = button5.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button5.text.toString())
                         }
 
                         button6 -> {
-                            selectedButton?.text = button6.text
+                            Selected.button?.text = button6.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button6.text.toString())
                         }
 
                         button7 -> {
-                            selectedButton?.text = button7.text
+                            Selected.button?.text = button7.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button7.text.toString())
                         }
 
                         button8 -> {
-                            selectedButton?.text = button8.text
+                            Selected.button?.text = button8.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button8.text.toString())
                         }
 
                         button9 -> {
-                            selectedButton?.text = button9.text
+                            Selected.button?.text = button9.text
+                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button9.text.toString())
                         }
                     }
                 }
@@ -143,7 +166,6 @@ class MainActivity : ComponentActivity() {
 
 
         val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
-        var answerSheet = SudokuMain.answerSheet
         var paintRow = true
         var paintCol = true
         for (row in 0 until 9) {
@@ -161,13 +183,16 @@ class MainActivity : ComponentActivity() {
 
                 buttonInList.backgroundTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(this, currentColor)
+
                 )
 
                 setNumbersInSudoku(row, col, buttonInList)
 
                 //save clicked button
                 buttonInList.setOnClickListener {
-                    selectedButton = buttonInList
+                    Selected.button = buttonInList
+                    Selected.row = row
+                    Selected.col = col
                 }
 
                 // Add the button to the GridLayout
