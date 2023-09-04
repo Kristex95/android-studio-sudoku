@@ -22,4 +22,5 @@ class CustomArrayList<T> : ArrayList<T>() {
         copyList.addAll(this)
         return copyList
     }
+
 }

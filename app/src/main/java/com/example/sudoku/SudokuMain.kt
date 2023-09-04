@@ -62,7 +62,9 @@ object SudokuMain {
 
 
         }
-        playerSheet = answerSheet.clone()
+        for (i in answerSheet){
+            playerSheet.add(i.clone())
+        }
         createPlayerSheet()
 
     }

@@ -78,7 +78,11 @@ class MainActivity : ComponentActivity() {
                 val lastMove = playersMoves.pop()
                 val button = lastMove.button
                 button?.text = lastMove.value.toString()
-                SudokuMain.playerSheet[lastMove.row][lastMove.col] = lastMove.value
+                if(lastMove.value != "")
+                    SudokuMain.playerSheet[lastMove.row][lastMove.col] = Integer.parseInt(lastMove.value)
+                else{
+                    SudokuMain.playerSheet[lastMove.row][lastMove.col] = 0
+                }
                 // Можете также обновить цвет фона или другие свойства, если необходимо
             } else {
                 Toast.makeText(this, "Нет доступных ходов для отмены", Toast.LENGTH_SHORT).show()
@@ -105,7 +109,7 @@ class MainActivity : ComponentActivity() {
                         if(playersMoves.size >= undoTimes){
                             playersMoves.removeAt(0)
                         }
-                        playersMoves.add(ButtonData(Selected.row, Selected.col, Selected.button, Integer.parseInt(Selected.button?.text.toString())))
+                        playersMoves.add(ButtonData(Selected.row, Selected.col, Selected.button, Selected.button?.text.toString()))
                     }
                     /*selectedButton = button*/
                     when (button) {
