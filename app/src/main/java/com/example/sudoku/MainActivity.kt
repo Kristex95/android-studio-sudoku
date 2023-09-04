@@ -170,8 +170,6 @@ class MainActivity : ComponentActivity() {
                     selectedButton = buttonInList
                 }
 
-
-                currentColor = if (currentColor == color1) color2 else color1
                 // Add the button to the GridLayout
                 gridLayout.addView(buttonLayout)
             }
