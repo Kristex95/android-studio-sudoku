@@ -7,6 +7,8 @@ object SudokuMain {
     private const val sheetLength = 9
      var answerSheet = CustomArrayList<CustomArrayList<Int>>()
 
+
+
     init{
         CreateSheet()
     }
