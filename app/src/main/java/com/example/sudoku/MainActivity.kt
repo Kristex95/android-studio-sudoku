@@ -2,6 +2,8 @@ package com.example.sudoku
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
@@ -21,10 +23,11 @@ class MainActivity : ComponentActivity() {
         var button: Button? = null
         var row: Int = 0
         var col: Int = 0
+        var originalBgColor = Color.WHITE
     }
 
     private val color1 = R.color.light_wight
-    private val color2 = R.color.pumpkin
+    private val color2 = R.color.light_pink
     private var currentColor = color1
     private var playersMoves = Stack<ButtonData>()
     private final val undoTimes = 20
@@ -64,12 +67,20 @@ class MainActivity : ComponentActivity() {
         fun setNumbersInSudoku(row: Int, col: Int, button: Button) {
             var buttText = ""
             if (SudokuMain.playerSheet[row][col]!=0){
-            buttText += SudokuMain.playerSheet[row][col].toString()
+                buttText += SudokuMain.playerSheet[row][col].toString()
+                button.setTextColor(Color.BLUE)
             }
 
             button.tag = buttText
             button.text = "$buttText"
 
+        }
+
+        fun isEditableButton(row: Int, col: Int) : Boolean{
+            if(SudokuMain.playerSheet[row][col]==0){
+                return true
+            }
+            return false
         }
 
         fun undoLastMove() {
@@ -158,6 +169,9 @@ class MainActivity : ComponentActivity() {
                             SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button9.text.toString())
                         }
                     }
+                    if(SudokuMain.answerSheet == SudokuMain.playerSheet){
+                        Toast.makeText(this, "You won!", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -195,10 +209,21 @@ class MainActivity : ComponentActivity() {
                 setNumbersInSudoku(row, col, buttonInList)
 
                 //save clicked button
-                buttonInList.setOnClickListener {
-                    Selected.button = buttonInList
-                    Selected.row = row
-                    Selected.col = col
+                if(isEditableButton(row, col)) {
+                    buttonInList.setOnClickListener {
+                        Selected.button?.setBackgroundColor(Selected.originalBgColor)
+
+                        Selected.button = buttonInList
+                        Selected.row = row
+                        Selected.col = col
+                        Selected.originalBgColor = (buttonInList.background as ColorDrawable).color
+                        buttonInList.setBackgroundColor(Color.BLUE)
+                    }
+                }
+                else{
+                    buttonInList.setOnClickListener {
+                        return@setOnClickListener
+                    }
                 }
 
                 // Add the button to the GridLayout
