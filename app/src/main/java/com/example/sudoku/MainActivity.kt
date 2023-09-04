@@ -5,11 +5,13 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
+import java.util.Stack
 
 const val TAG = "Andrii"
 
@@ -30,7 +32,7 @@ class MainActivity : ComponentActivity() {
         val button7: Button = findViewById(R.id.butt7)
         val button8: Button = findViewById(R.id.butt8)
         val button9: Button = findViewById(R.id.butt9)
-
+        val buttonUndo:Button=findViewById(R.id.buttonUndo)
         val buttons = listOf(
             button1,
             button2,
@@ -43,7 +45,7 @@ class MainActivity : ComponentActivity() {
             button9
         )
         var selectedButton: Button? = null
-
+        val moveStack = Stack<Move>()
 
         SudokuMain.LogAnswerSheet()
         val color1 = R.color.light_wight
@@ -54,11 +56,44 @@ class MainActivity : ComponentActivity() {
         fun setNumbersInSudoku(row:Int,col:Int,button:Button){
             var buttText = ""
             var answerSheet=SudokuMain.answerSheet
+            val move = Move(row, col, answerSheet[row][col])
+            moveStack.push(move)
             buttText += answerSheet[row][col].toString()
             button.tag = buttText
             button.text = "$buttText"  // Set button text as per your requirement
 
         }
+
+        fun undoLastMove() {
+            if (moveStack.isNotEmpty()) {
+                val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+                val lastMove = moveStack.pop()
+                val button = gridLayout.getChildAt(lastMove.row * 9 + lastMove.col) as Button
+                button.text = lastMove.value.toString()
+                // Можете также обновить цвет фона или другие свойства, если необходимо
+            } else {
+                Toast.makeText(this, "Нет доступных ходов для отмены", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        fun resetGame() {
+            val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+            for (row in 0 until 9) {
+                for (col in 0 until 9) {
+                    val button = gridLayout.getChildAt(row * 9 + col) as Button
+                    setNumbersInSudoku(row, col, button)
+                }
+            }
+        }
+
+        buttonUndo.setOnClickListener {
+            undoLastMove()
+        }
+
+        buttonReset.setOnClickListener {
+            resetGame()
+        }
+
         val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
         var answerSheet = SudokuMain.answerSheet
         var paintRow = true
