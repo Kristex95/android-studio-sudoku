@@ -16,8 +16,11 @@ import java.util.Stack
 const val TAG = "Andrii"
 
 class MainActivity : ComponentActivity() {
+    var selectedButton: Button? = null
+    private val color1 = R.color.light_wight
+    private val color2 = R.color.pumpkin
+    private var currentColor = color1
     @SuppressLint("ResourceAsColor")
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +47,11 @@ class MainActivity : ComponentActivity() {
             button8,
             button9
         )
-        var selectedButton: Button? = null
+
         val moveStack = Stack<Move>()
 
         SudokuMain.LogAnswerSheet()
-        val color1 = R.color.light_wight
-        val color2 = R.color.pumpkin
-        var currentColor = color1
+
 
 
         fun setNumbersInSudoku(row: Int, col: Int, button: Button) {
@@ -87,6 +88,51 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        fun assignNumpadClick() {
+            buttons.forEach { button ->
+                button.setOnClickListener {
+                    /*selectedButton = button*/
+                    when (button) {
+                        button1 -> {
+                            selectedButton?.text = button1.text
+                        }
+
+                        button2 -> {
+                            selectedButton?.text = button2.text
+                        }
+
+                        button3 -> {
+                            selectedButton?.text = button3.text
+                        }
+
+                        button4 -> {
+                            selectedButton?.text = button4.text
+                        }
+
+                        button5 -> {
+                            selectedButton?.text = button5.text
+                        }
+
+                        button6 -> {
+                            selectedButton?.text = button6.text
+                        }
+
+                        button7 -> {
+                            selectedButton?.text = button7.text
+                        }
+
+                        button8 -> {
+                            selectedButton?.text = button8.text
+                        }
+
+                        button9 -> {
+                            selectedButton?.text = button9.text
+                        }
+                    }
+                }
+            }
+        }
+
         buttonUndo.setOnClickListener {
             undoLastMove()
         }
@@ -94,6 +140,7 @@ class MainActivity : ComponentActivity() {
         buttonReset.setOnClickListener {
             resetGame()
         }
+
 
         val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
         var answerSheet = SudokuMain.answerSheet
@@ -118,55 +165,10 @@ class MainActivity : ComponentActivity() {
 
                 setNumbersInSudoku(row, col, buttonInList)
 
+                //save clicked button
                 buttonInList.setOnClickListener {
-
-                    buttons.forEach { button ->
-                        button.setOnClickListener {
-                            /*selectedButton = button*/
-                            when (button) {
-                                button1 -> {
-                                    buttonInList.text = button1.text
-                                }
-
-                                button2 -> {
-                                    buttonInList.text = button2.text
-                                }
-
-                                button3 -> {
-                                    buttonInList.text = button3.text
-                                }
-
-                                button4 -> {
-                                    buttonInList.text = button4.text
-                                }
-
-                                button5 -> {
-                                    buttonInList.text = button5.text
-                                }
-
-                                button6 -> {
-                                    buttonInList.text = button6.text
-                                }
-
-                                button7 -> {
-                                    buttonInList.text = button7.text
-                                }
-
-                                button8 -> {
-                                    buttonInList.text = button8.text
-                                }
-
-                                button9 -> {
-                                    buttonInList.text = button9.text
-                                }
-                            }
-                        }
-                    }
-
+                    selectedButton = buttonInList
                 }
-
-
-
 
 
                 currentColor = if (currentColor == color1) color2 else color1
@@ -174,5 +176,8 @@ class MainActivity : ComponentActivity() {
                 gridLayout.addView(buttonLayout)
             }
         }
+
+        assignNumpadClick()
+
     }
 }
