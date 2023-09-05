@@ -99,16 +99,14 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this, "Нет доступных ходов для отмены", Toast.LENGTH_SHORT).show()
             }
         }
-
-        fun resetGame() {
-            val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
-            for (row in 0 until 9) {
-                for (col in 0 until 9) {
-                    val button = gridLayout.getChildAt(row * 9 + col) as Button
-                    setNumbersInSudoku(row, col, button)
-                }
-            }
+        fun resetToDefaultValues(){
+            Selected.button=null
+            playersMoves.clear()
         }
+
+
+
+
 
         fun assignNumpadClick() {
             buttons.forEach { button ->
@@ -176,6 +174,69 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        fun createSudokuGame() {
+            val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+            var paintRow = true
+            var paintCol = true
+            for (row in 0 until 9) {
+                if (row % 3 == 0) paintRow = !paintRow
+                paintCol = true
+                for (col in 0 until 9) {
+                    if (col % 3 == 0) paintCol = !paintCol
+                    if (paintRow != paintCol) currentColor = color1 else currentColor = color2
+                    val buttonLayout = LayoutInflater.from(this)
+                        .inflate(R.layout.button_grid_item, gridLayout, false)
+
+                    val buttonInList = buttonLayout.findViewById<Button>(R.id.button)
+                    buttonInList.setBackgroundColor(R.color.black)
+
+
+                    buttonInList.backgroundTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(this, currentColor)
+
+                    )
+
+                    setNumbersInSudoku(row, col, buttonInList)
+
+                    //save clicked button
+                    if (isEditableButton(row, col)) {
+                        buttonInList.setOnClickListener {
+                            Selected.button?.setBackgroundColor(Selected.originalBgColor)
+
+                            Selected.button = buttonInList
+                            Selected.row = row
+                            Selected.col = col
+                            Selected.originalBgColor =
+                                (buttonInList.background as ColorDrawable).color
+                            buttonInList.setBackgroundColor(Color.BLUE)
+                        }
+                    } else {
+                        buttonInList.setOnClickListener {
+                            return@setOnClickListener
+                        }
+                    }
+
+                    // Add the button to the GridLayout
+                    gridLayout.addView(buttonLayout)
+                }
+            }
+
+            assignNumpadClick()
+        }
+
+        createSudokuGame()
+
+
+        fun resetGame() {
+            val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+            gridLayout.removeAllViews() // Удаляем все представления из GridLayout
+            SudokuMain.createNewGame()
+            /*resetToDefaultValues()
+            createSudokuGame()*/
+            resetToDefaultValues()
+            createSudokuGame()
+        }
+
         buttonUndo.setOnClickListener {
             undoLastMove()
         }
@@ -184,54 +245,6 @@ class MainActivity : ComponentActivity() {
             resetGame()
         }
 
-
-        val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
-        var paintRow = true
-        var paintCol = true
-        for (row in 0 until 9) {
-            if (row % 3 == 0) paintRow = !paintRow
-            paintCol = true
-            for (col in 0 until 9) {
-                if (col % 3 == 0) paintCol = !paintCol
-                if (paintRow != paintCol) currentColor = color1 else currentColor = color2
-                val buttonLayout = LayoutInflater.from(this)
-                    .inflate(R.layout.button_grid_item, gridLayout, false)
-
-                val buttonInList = buttonLayout.findViewById<Button>(R.id.button)
-                buttonInList.setBackgroundColor(R.color.black)
-
-
-                buttonInList.backgroundTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(this, currentColor)
-
-                )
-
-                setNumbersInSudoku(row, col, buttonInList)
-
-                //save clicked button
-                if(isEditableButton(row, col)) {
-                    buttonInList.setOnClickListener {
-                        Selected.button?.setBackgroundColor(Selected.originalBgColor)
-
-                        Selected.button = buttonInList
-                        Selected.row = row
-                        Selected.col = col
-                        Selected.originalBgColor = (buttonInList.background as ColorDrawable).color
-                        buttonInList.setBackgroundColor(Color.BLUE)
-                    }
-                }
-                else{
-                    buttonInList.setOnClickListener {
-                        return@setOnClickListener
-                    }
-                }
-
-                // Add the button to the GridLayout
-                gridLayout.addView(buttonLayout)
-            }
-        }
-
-        assignNumpadClick()
 
     }
 }

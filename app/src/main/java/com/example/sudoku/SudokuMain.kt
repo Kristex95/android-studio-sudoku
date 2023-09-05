@@ -13,7 +13,7 @@ object SudokuMain {
     }
 
 
-    private fun CreateSheet() {
+     private fun CreateSheet() {
         val oneToNine = (1..9).toMutableList()
         var list = CustomArrayList<Int>()
         list.addAll(oneToNine)
@@ -133,5 +133,10 @@ object SudokuMain {
             }
             Log.d("Kristex", rowStr)
         }
+    }
+    fun createNewGame(){
+        answerSheet.clear()
+        playerSheet.clear()
+        CreateSheet()
     }
 }
