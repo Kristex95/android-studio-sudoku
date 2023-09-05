@@ -6,7 +6,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -31,6 +33,7 @@ class MainActivity : ComponentActivity() {
     private var currentColor = color1
     private var playersMoves = Stack<ButtonData>()
     private final val undoTimes = 20
+
     @SuppressLint("ResourceAsColor")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,15 +61,17 @@ class MainActivity : ComponentActivity() {
             button8,
             button9
         )
-
-
+        val frameLayout:FrameLayout=findViewById(R.id.frame)
+        val winButton=findViewById<Button>(R.id.button_win)
+       // frameLayout.visibility=View.INVISIBLE
+        frameLayout.bringToFront()
         SudokuMain.LogAnswerSheet()
 
 
 
         fun setNumbersInSudoku(row: Int, col: Int, button: Button) {
             var buttText = ""
-            if (SudokuMain.playerSheet[row][col]!=0){
+            if (SudokuMain.playerSheet[row][col] != 0) {
                 buttText += SudokuMain.playerSheet[row][col].toString()
                 button.setTextColor(Color.BLUE)
             }
@@ -76,8 +81,8 @@ class MainActivity : ComponentActivity() {
 
         }
 
-        fun isEditableButton(row: Int, col: Int) : Boolean{
-            if(SudokuMain.playerSheet[row][col]==0){
+        fun isEditableButton(row: Int, col: Int): Boolean {
+            if (SudokuMain.playerSheet[row][col] == 0) {
                 return true
             }
             return false
@@ -89,9 +94,10 @@ class MainActivity : ComponentActivity() {
                 val lastMove = playersMoves.pop()
                 val button = lastMove.button
                 button?.text = lastMove.value.toString()
-                if(lastMove.value != "")
-                    SudokuMain.playerSheet[lastMove.row][lastMove.col] = Integer.parseInt(lastMove.value)
-                else{
+                if (lastMove.value != "")
+                    SudokuMain.playerSheet[lastMove.row][lastMove.col] =
+                        Integer.parseInt(lastMove.value)
+                else {
                     SudokuMain.playerSheet[lastMove.row][lastMove.col] = 0
                 }
                 // Можете также обновить цвет фона или другие свойства, если необходимо
@@ -99,82 +105,107 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this, "Нет доступных ходов для отмены", Toast.LENGTH_SHORT).show()
             }
         }
-        fun resetToDefaultValues(){
-            Selected.button=null
+
+        fun resetToDefaultValues() {
+            Selected.button = null
             playersMoves.clear()
         }
-
-
-
 
 
         fun assignNumpadClick() {
             buttons.forEach { button ->
                 button.setOnClickListener {
-                    if(Selected.button == null){
+                    if (Selected.button == null) {
                         return@setOnClickListener
                     }
-                    if(Selected.button?.text != button.text){
-                        if(playersMoves.size >= undoTimes){
+                    if (Selected.button?.text != button.text) {
+                        if (playersMoves.size >= undoTimes) {
                             playersMoves.removeAt(0)
                         }
-                        playersMoves.add(ButtonData(Selected.row, Selected.col, Selected.button, Selected.button?.text.toString()))
+                        playersMoves.add(
+                            ButtonData(
+                                Selected.row,
+                                Selected.col,
+                                Selected.button,
+                                Selected.button?.text.toString()
+                            )
+                        )
                     }
                     /*selectedButton = button*/
                     when (button) {
                         button1 -> {
                             Selected.button?.text = button1.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button1.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button1.text.toString())
                         }
 
                         button2 -> {
                             Selected.button?.text = button2.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button2.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button2.text.toString())
                         }
 
                         button3 -> {
                             Selected.button?.text = button3.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button3.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button3.text.toString())
                         }
 
                         button4 -> {
                             Selected.button?.text = button4.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button4.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button4.text.toString())
                         }
 
                         button5 -> {
                             Selected.button?.text = button5.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button5.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button5.text.toString())
                         }
 
                         button6 -> {
                             Selected.button?.text = button6.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button6.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button6.text.toString())
                         }
 
                         button7 -> {
                             Selected.button?.text = button7.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button7.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button7.text.toString())
                         }
 
                         button8 -> {
                             Selected.button?.text = button8.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button8.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button8.text.toString())
                         }
 
                         button9 -> {
                             Selected.button?.text = button9.text
-                            SudokuMain.playerSheet[Selected.row][Selected.col] = Integer.parseInt(button9.text.toString())
+                            SudokuMain.playerSheet[Selected.row][Selected.col] =
+                                Integer.parseInt(button9.text.toString())
                         }
                     }
-                    if(SudokuMain.answerSheet == SudokuMain.playerSheet){
+                    if (SudokuMain.answerSheet == SudokuMain.playerSheet) {
+                        frameLayout.visibility= View.VISIBLE
+
+
                         Toast.makeText(this, "You won!", Toast.LENGTH_SHORT).show()
                     }
+                    if (Integer.parseInt(Selected.button?.text.toString()) != SudokuMain.answerSheet[Selected.row][Selected.col]) {
+                        Selected.button?.setTextColor(Color.RED)
+
+                    }
+                    if (Integer.parseInt(Selected.button?.text.toString()) == SudokuMain.answerSheet[Selected.row][Selected.col]) {
+                    Selected.button?.setTextColor(Color.BLACK)
+                }
                 }
             }
         }
 
         fun createSudokuGame() {
+            frameLayout.visibility=View.INVISIBLE
             val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
             var paintRow = true
             var paintCol = true
@@ -244,7 +275,9 @@ class MainActivity : ComponentActivity() {
         buttonReset.setOnClickListener {
             resetGame()
         }
-
+        winButton.setOnClickListener {
+            resetGame()
+        }
 
     }
 }

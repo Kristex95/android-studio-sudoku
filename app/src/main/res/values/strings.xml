@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Sudoku</string>
+    <string name="string_win">Congratulation! You Won!</string>
+    <string name="button_won_restart">Restart</string>
 </resources>
