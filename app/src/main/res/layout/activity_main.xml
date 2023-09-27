@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="#578E8D8D"
+    android:foregroundGravity="center"
     android:gravity="center"
     android:layoutDirection="inherit"
     android:orientation="vertical">
